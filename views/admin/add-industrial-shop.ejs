@@ -3,49 +3,49 @@
       <div class="card-body">
         <h4 class="card-title">İşletme Ekle</h4>
         <p class="card-description"> Basic form elements </p>
-        <form class="forms-sample">
+        <form action="/admin/add-industrial-shop" method="POST" class="forms-sample">
           <div class="form-group">
             <label for="exampleInputName1">İşletme Adı</label>
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="İşletme Adı">
+            <input name ="IsletmeAdi" type="text" class="form-control" id="exampleInputName1" placeholder="İşletme Adı">
           </div>
           <div class="form-group">
-            <label>Kategori</label>
-              <select class="js-example-basic-multiple" multiple="multiple" style="width:100%">
-                <option value="AL">Oto Tamir ve Bakım</option>
-                <option value="WY">Oto Yedek Parça ve Aksesuar</option>
-                <option value="AM">Lastik ve Jant</option>
-                <option value="CA">Oto Elektrik ve Elektronik</option>
-                <option value="RU">Oto Boya ve Kaplama</option>
-              </select>
+            <label for="exampleSelectGender">Kategori</label>
+            <select name="Kategori" class="form-select" id="exampleSelectGender">
+              <option>Oto Tamir ve Bakım</option>
+              <option>Oto Yedek Parça ve Aksesuar</option>
+              <option>Lastik ve Jant</option>
+              <option>Oto Elektrik ve Elektronik</option>
+              <option>Oto Boya ve Kaplama</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Adres</label>
-            <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Adres">
+            <input name="Adres" type="text" class="form-control" id="exampleInputPassword4" placeholder="Adres">
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">İletişim Bilgileri</label>
-            <input type="password" class="form-control" id="exampleInputPassword4" placeholder="İletişim Bilgileri">
+            <input name="IletisimBilgileri" type="text" class="form-control" id="exampleInputPassword4" placeholder="İletişim Bilgileri">
           </div>
-          <div class="form-group">
-            <label>File upload</label>
+          <!-- <div class="form-group">
+            <label>Resim Ekle</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Resim Ekle">
               <span class="input-group-append">
-                <button class="file-upload-browse btn btn-gradient-primary py-3" type="button">Upload</button>
+                <button class="file-upload-browse btn btn-gradient-primary py-3" type="button">Resim Ekle</button>
               </span>
             </div>
+          </div> -->
+          <div class="form-group">
+            <label for="exampleInputCity1">Şehir</label>
+            <input name="Sehir" type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
           </div>
           <div class="form-group">
-            <label for="exampleInputCity1">City</label>
-            <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+            <label for="exampleTextarea1">Açıklama</label>
+            <textarea name="Aciklama" class="form-control" id="exampleTextarea1" rows="4"></textarea>
           </div>
-          <div class="form-group">
-            <label for="exampleTextarea1">Textarea</label>
-            <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
-          </div>
-          <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-          <button class="btn btn-light">Cancel</button>
+          <button type="submit" class="btn btn-gradient-primary me-2">Kaydet</button>
+          <button class="btn btn-light">İptal</button>
         </form>
       </div>
     </div>
