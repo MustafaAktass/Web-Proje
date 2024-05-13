@@ -1,5 +1,6 @@
 const upload = require("../middleware/fileUpload")
 const ShopData = require("../model/shopdata")
+const { ObjectId } = require('mongodb');
 exports.processIndustrialShop = async(req,res)=>{
     try{
     upload(req,res,async(err)=>{
@@ -46,5 +47,16 @@ exports.listIndustrialShop= async (req,res,next)=>{
     catch (err) {
         res.status(500).json({ message: err.message }); 
     }
-    
+}
+exports.deleteIndustrialShop = async (req, res, next) => {
+    try {
+        const data = await ShopData.findByIdAndDelete(req.params.id);
+        if (!data) {
+            return res.status(404).send('İşletme bulunamadı veya zaten silinmiş');
+        }
+        req.method = 'GET';
+        res.redirect(303,'admin/list-industrial-shop');
+    } catch (err) {
+        return res.status(500).send(`İşletme silinirken bir hata oluştu: ${err.message}`);
+    }
 }

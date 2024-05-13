@@ -6,11 +6,11 @@
         <form action="/admin/add-industrial-shop" method="POST" enctype="multipart/form-data" class="forms-sample">
           <div class="form-group">
             <label for="exampleInputName1">İşletme Adı</label>
-            <input name ="IsletmeAdi" type="text" class="form-control" id="exampleInputName1" placeholder="İşletme Adı">
+            <input name ="IsletmeAdi" type="text" class="form-control" id="exampleInputName1" placeholder="İşletme Adı" required>
           </div>
           <div class="form-group">
             <label for="exampleSelectGender">Kategori</label>
-            <select name="Kategori" class="form-select" id="exampleSelectGender">
+            <select name="Kategori" class="form-select" id="exampleSelectGender" required>
               <option>Oto Tamir ve Bakım</option>
               <option>Oto Yedek Parça ve Aksesuar</option>
               <option>Lastik ve Jant</option>
@@ -20,17 +20,17 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">Adres</label>
-            <input name="Adres" type="text" class="form-control" id="exampleInputPassword4" placeholder="Adres">
+            <input name="Adres" type="text" class="form-control" id="exampleInputPassword4" placeholder="Adres" required>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword4">İletişim Bilgileri</label>
-            <input name="IletisimBilgileri" type="text" class="form-control" id="exampleInputPassword4" placeholder="İletişim Bilgileri">
+            <input name="IletisimBilgileri" type="text" class="form-control" id="exampleInputPassword4" placeholder="İletişim Bilgileri" required>
           </div>
           <div class="form-group">
             <label for="img">Resim Ekle</label>
-            <input type="file" name="files" id="img" class="file-upload-default" multiple>
+            <input type="file" name="files" id="img" class="file-upload-default" multiple required>
             <div class="input-group col-xs-12">
-              <input type="text" class="form-control file-upload-info" disabled placeholder="Lütfen bir veya daha fazla resim seçin">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Lütfen bir veya daha fazla resim seçin" required>
               <span class="input-group-append">
                 <button class="file-upload-browse btn btn-gradient-primary py-3" type="button">Resim Seç</button>
               </span>
@@ -38,11 +38,11 @@
           </div>
           <div class="form-group">
             <label for="exampleInputCity1">Şehir</label>
-            <input name="Sehir" type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+            <input name="Sehir" type="text" class="form-control" id="exampleInputCity1" placeholder="Şehir" required>
           </div>
           <div class="form-group">
             <label for="exampleTextarea1">Açıklama</label>
-            <textarea name="Aciklama" class="form-control" id="exampleTextarea1" rows="4"></textarea>
+            <textarea name="Aciklama" class="form-control" id="exampleTextarea1" rows="4" required></textarea>
           </div>
           <button type="submit" class="btn btn-gradient-primary me-2">Kaydet</button>
           <button class="btn btn-light">İptal</button>
