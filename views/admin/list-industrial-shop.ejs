@@ -20,10 +20,14 @@
                 <td> <%= shopdata[index].IsletmeAdi %> </td>
                 <td><%= shopdata[index].Kategori %> </td>
                 <td> <%= shopdata[index].Sehir %> </td>
-                <td> Detay </td>
                 <td>
-                  <button onclick="deleteShop('<%= shopdata[index]._id %>')" class="btn btn-danger">Sil</button>
-              </td>
+                  <a class="btn btn-warning" href="/admin/edit-industrial-shop/<%= shopdata[index]._id %>">Düzenle</a>
+                </td>
+                <td>
+                  <form action="/admin/list-industrial-shop/<%= shopdata[index]._id %>" method="POST">
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                  </form>
+                </td>
               </tr>
             <% } %>
           </tbody>
@@ -31,27 +35,4 @@
       </div>
     </div>
   </div>
-  <script>
-    function deleteShop(shopId) {
-        if (confirm("Bu işletmeyi silmek istediğinize emin misiniz?")) {
-            fetch('list-industrial-shop/' + shopId, {
-                method: 'DELETE',
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('İşletme silinirken bir hata oluştu');
-                }
-                return response.text();
-            })
-            .then(data => {
-                console.log(data);
-                // İşletme başarıyla silindiğinde yapılacak işlemler buraya eklenebilir
-                // Örneğin, tabloyu yeniden yüklemek gibi
-            })
-            .catch(error => {
-                console.error('İşletme silinirken bir hata oluştu:', error);
-                // Hata durumunda kullanıcıya bilgi vermek için burada bir işlem yapılabilir
-            });
-        }
-    }
-</script>
+  
