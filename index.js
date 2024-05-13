@@ -4,6 +4,7 @@ const ejslayouts=require('express-ejs-layouts')
 const adminRouter = require('./routes/admin')
 const bodyParser = require('body-parser');
 const mongoDbConnect = require('./db/mongoDb');
+const methodOverride = require('method-override');
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use('/admin',adminRouter)
 app.use('/static',express.static(path.join(__dirname,'public/template')));
 app.use(express.static(path.join(__dirname,'node_modules')))
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
+//app.use(methodOverride('_method'))
 app.listen(3000,()=>{
     console.log('server running');
 })
