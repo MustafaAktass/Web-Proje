@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.loginPage=(req,res,next)=>{
-    res.render('auth/login')
+    res.render('auth/login',{layout:false})
 }
 exports.registerPage=(req,res,next)=>{
-    res.render('auth/register')
+    res.render('auth/register',{layout:false})
 }
 exports.register= async(req,res,next)=>{
     const data = {
@@ -52,7 +52,10 @@ exports.login=async(req,res,next)=>{
          res.send("Hatalı Giden Bir Şeyler Oldu")
     }
 }
-
+exports.logout = (req, res) => {
+    res.clearCookie('cookieJWT');
+    res.redirect('/auth/login');
+};
 const createToken = (userId)=>{
     return jwt.sign({userId},process.env.JWT_SECRET,{
         expiresIn:"1d",

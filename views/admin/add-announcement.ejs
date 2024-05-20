@@ -1,0 +1,34 @@
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Duyuru Ekle</h4>
+        <form action="/admin/add-announcement" method="POST" enctype="multipart/form-data" class="forms-sample">
+          <div class="form-group">
+            <label for="exampleInputName1">Duyuru Başlığı</label>
+            <input name ="DuyuruAdi" type="text" class="form-control" id="exampleInputName1" placeholder="Duyuru Başlığı" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputName1">Kategori</label>
+            <input name ="Kategori" type="text" class="form-control" id="exampleInputName1" placeholder="Kategori" required>
+          </div>
+          <div class="form-group">
+            <label for="img">Resim Ekle</label>
+            <input type="file" name="files" id="img" class="file-upload-default" multiple required>
+            <div class="input-group col-xs-12">
+              <input type="text" class="form-control file-upload-info" disabled placeholder="Lütfen bir veya daha fazla resim seçin" required>
+              <span class="input-group-append">
+                <button class="file-upload-browse btn btn-gradient-primary py-3" type="button">Resim Seç</button>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleTextarea1">Açıklama</label>
+            <textarea name="Aciklama" class="form-control" id="exampleTextarea1" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-gradient-primary me-2">Kaydet</button>
+          <button class="btn btn-light">İptal</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

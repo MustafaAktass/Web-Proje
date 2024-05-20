@@ -1,5 +1,5 @@
-const upload = require("../middleware/fileUpload")
-const ShopData = require("../model/shopdata")
+const upload = require("../../middleware/fileUpload")
+const ShopData = require("../../model/shopdata")
 exports.processIndustrialShop = async(req,res)=>{
     try{
     upload(req,res,async(err)=>{
@@ -72,35 +72,48 @@ exports.editIndustrialShop = async (req, res, next) => {
 }
 exports.updateIndustrialShop = async (req, res, next) => {
     try {
-        upload(req,res,async(err)=>{
-            if(err){
+        upload(req, res, async (err) => {
+            if (err) {
                 return res.status(400).json({ message: 'Dosya yükleme hatası: ' + err.message });
-            }
-            else{
+            } else {
                 const { IsletmeAdi, Kategori, Adres, IletisimBilgileri, Sehir, Aciklama } = req.body;
-                    
-                    // Yüklenen her dosya için dosya yollarını alıp resimler dizisine ekleyelim
-                    const resimler = req.files.map(file => {
+
+                // Mevcut işletmeyi al
+                const existingShop = await ShopData.findById(req.params.id);
+                if (!existingShop) {
+                    return res.status(404).send('İşletme bulunamadı');
+                }
+
+                // Yüklenen dosyalar varsa dosya yollarını alıp resimler dizisine ekle
+                let resimler;
+                if (req.files && req.files.length > 0) {
+                    resimler = req.files.map(file => {
                         return { dosyaYolu: file.path };
                     });
-        
-                    const updatedShop = await ShopData.findByIdAndUpdate(req.params.id, {
-                        IsletmeAdi,
-                        Kategori,
-                        Adres,
-                        IletisimBilgileri,
-                        Sehir,
-                        Aciklama,
-                        resimler: resimler
-                    }, { new: true });
-                    if (!updatedShop) {
-                        return res.status(404).send('İşletme bulunamadı');
-                    }
-            
-                    res.redirect('/admin/list-industrial-shop');
+                } else {
+                    // Yeni resim yüklenmemişse eski resimleri kullan
+                    resimler = existingShop.resimler;
+                }
+
+                // İşletmeyi güncelle
+                const updatedShop = await ShopData.findByIdAndUpdate(req.params.id, {
+                    IsletmeAdi,
+                    Kategori,
+                    Adres,
+                    IletisimBilgileri,
+                    Sehir,
+                    Aciklama,
+                    resimler: resimler
+                }, { new: true });
+
+                if (!updatedShop) {
+                    return res.status(404).send('İşletme güncellenemedi');
+                }
+
+                res.redirect('/admin/list-industrial-shop');
             }
-        })
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-}
+};

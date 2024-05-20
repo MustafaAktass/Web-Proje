@@ -19,6 +19,7 @@ const connect = mongoDbConnect;
 
 app.set('view engine', 'ejs')
 app.use(ejslayouts)
+app.set('layout', 'layouts/layout');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookiParser())
