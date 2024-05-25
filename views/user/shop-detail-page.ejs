@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+    <%- include('../user-partials/head') %>
+<body>
+    <div class="page sub-page">
+        <!--*********************************************************************************************************-->
+        <!--************ HERO ***************************************************************************************-->
+        <!--*********************************************************************************************************-->
+        <section class="hero">
+            <div class="hero-wrapper">
+                <!--============ Secondary Navigation ===============================================================-->
+                <!--============ End Secondary Navigation ===========================================================-->
+                <!--============ Main Navigation ====================================================================-->
+                <div class="main-navigation">
+                    <div class="container">
+                        <%- include('../user-partials/navbar') %> 
+                        <!--end navbar-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Ana Sayfa</a></li>
+                            <li class="breadcrumb-item active"><a href="#">Detay</a></li>                           
+                        </ol>
+                        <!--end breadcrumb-->
+                    </div>
+                    <!--end container-->
+                </div>
+                <!--============ End Main Navigation ================================================================-->
+                <!--============ Page Title =========================================================================-->
+                <div class="page-title">
+                    <div class="container clearfix">
+                        <div class="float-left float-xs-none">
+                            <h1><%= shopdata.IsletmeAdi %>
+                                <span class="tag">Offer</span>
+                            </h1>
+                            <h4 class="location">
+                                <a href="#"><%= shopdata.Adres %></a>
+                            </h4>
+                        </div>
+                    </div>
+                    <!--end container-->
+                </div>
+                <!--============ End Page Title =====================================================================-->
+                <div class="background"></div>
+                <!--end background-->
+            </div>
+            <!--end hero-wrapper-->
+        </section>
+        <!--end hero-->
+
+        <!--*********************************************************************************************************-->
+        <!--************ CONTENT ************************************************************************************-->
+        <!--*********************************************************************************************************-->
+        <section class="content">
+            <section class="block">
+                <div class="container">
+                    <div class="row">
+                        <!--============ Listing Detail =============================================================-->
+                        <div class="col-md-9">
+                            <!--Gallery Carousel-->
+                            <section>
+                                <h2>Galeri</h2>
+                                <!--end section-title-->
+                                <div class="gallery-carousel owl-carousel">
+                                    <% shopdata.resimler.forEach((resim, index) => { %>
+                                        <img src="/<%= resim.dosyaYolu.replace(/\\/g, '/') %>" alt="" data-hash="<%= index + 1 %>">
+                                    <% }); %>
+                                </div>
+                                <div class="gallery-carousel-thumbs owl-carousel">
+                                    <% shopdata.resimler.forEach((resim, index) => { %>
+                                        <a href="#<%= index + 1 %>" class="owl-thumb active-thumb background-image">
+                                            <img src="/<%= resim.dosyaYolu.replace(/\\/g, '/') %>" alt="">
+                                        </a>
+                                    <% }); %>
+                                </div>
+                            </section>
+                            <!--end Gallery Carousel-->
+                            <!--Description-->
+                            <section>
+                                <h2>Açıklama</h2>
+                                <p>
+                                   <%= shopdata.Aciklama %>
+                                </p>
+                            </section>
+                            <!--end Description-->
+                            <!--Details & Location-->
+                            <section>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h2>Detay</h2>
+                                        <dl>
+                                            <dt>Kategori</dt>
+                                            <dd><%= shopdata.Kategori %></dd>
+                                            <dt>Kaydolma Tarihi</dt>
+                                            <dd>05.04.2017</dd>
+                                            <dt>Adres</dt>
+                                            <dd><%= shopdata.Adres %></dd>
+                                            <dt>İletişim Bilgileri</dt>
+                                            <dd><%= shopdata.IletisimBilgileri %></dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h2>Lokasyon</h2>
+                                        <div class="map height-300px" id="map-small"></div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!--end Details and Locations-->
+                            <!--Features-->
+                            <!--end Features-->
+                            <!--Author-->
+                            <section>
+                                <h2>Author</h2>
+                                <div class="box">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="author">
+                                                <div class="author-image">
+                                                    <div class="background-image">
+                                                        <img src="/userstatic/assets/img/author-01.jpg" alt="">
+                                                    </div>
+                                                </div>
+                                                <!--end author-image-->
+                                                <div class="author-description">
+                                                    <h3>Jane Doe</h3>
+                                                    <div class="rating" data-rating="4"></div>
+                                                    <a href="seller-detail-1.html" class="text-uppercase">Show My Listings
+                                                        <span class="appendix">(12)</span>
+                                                    </a>
+                                                </div>
+                                                <!--end author-description-->
+                                            </div>
+                                            <hr>
+                                            <dl>
+                                                <dt>Phone</dt>
+                                                <dd>830-247-0930</dd>
+                                                <dt>Email</dt>
+                                                <dd>hijane@example.com</dd>
+                                            </dl>
+                                            <!--end author-->
+                                        </div>
+                                        <!--end col-md-5-->
+                                        <div class="col-md-7">
+                                            <form class="form email">
+                                                <div class="form-group">
+                                                    <label for="name" class="col-form-label">Name</label>
+                                                    <input name="name" type="text" class="form-control" id="name" placeholder="Your Name">
+                                                </div>
+                                                <!--end form-group-->
+                                                <div class="form-group">
+                                                    <label for="email" class="col-form-label">Email</label>
+                                                    <input name="email" type="email" class="form-control" id="email" placeholder="Your Email">
+                                                </div>
+                                                <!--end form-group-->
+                                                <div class="form-group">
+                                                    <label for="message" class="col-form-label">Message</label>
+                                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Hi there! I am interested in your offer ID 53951. Please give me more details."></textarea>
+                                                </div>
+                                                <!--end form-group-->
+                                                <button type="submit" class="btn btn-primary">Send</button>
+                                            </form>
+                                        </div>
+                                        <!--end col-md-7-->
+                                    </div>
+                                    <!--end row-->
+                                </div>
+                                <!--end box-->
+                            </section>
+                            <!--End Author-->
+                        </div>
+                        <!--============ End Listing Detail =========================================================-->
+                        <!--============ Sidebar ====================================================================-->
+                        <div class="col-md-3">
+                            <aside class="sidebar">
+                                <section>
+                                    <h2>İşletmeler</h2>
+                                    <div class="items compact">
+                                        <% for (let index = 0; index < 4 && index < shopdataList.length; index++) { %>
+                                            <div class="item">
+                                                <div class="wrapper">
+                                                    <div class="image">
+                                                        <h3>
+                                                            <a href="#" class="tag category"><%= shopdataList[index].Kategori %></a>
+                                                            <a href="/user/shop-detail-page/<%= shopdataList[index]._id %>" class="title"><%= shopdataList[index].IsletmeAdi %></a>
+                                                            <span class="tag">Offer</span>
+                                                        </h3>
+                                                        <a href="single-listing-1.html" class="image-wrapper background-image">
+                                                            <img src="/<%= shopdataList[index].resimler[0].dosyaYolu.replace(/\\/g, '/') %>" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <!--end image-->
+                                                    <h4 class="location">
+                                                        <a href="#"><%= shopdataList[index].Adres %></a>
+                                                    </h4>
+                                                    <div class="price">$80</div>
+                                                    <div class="meta">
+                                                        <figure>
+                                                            <i class="fa fa-calendar-o"></i>02.05.2017
+                                                        </figure>
+                                                        <figure>
+                                                            <a href="#">
+                                                                <i class="fa fa-user"></i><%= shopdataList[index].IletisimBilgileri %>
+                                                            </a>
+                                                        </figure>
+                                                    </div>
+                                                    <!--end meta-->
+                                                    <div class="description">
+                                                        <p><%= shopdataList[index].Aciklama %></p>
+                                                    </div>
+                                                    <!--end description-->
+                                                    <a href="single-listing-1.html" class="detail text-caps underline">Detay</a>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        <!--end item-->                                                                             
+                                    </div>
+
+                                </section>
+                            </aside>
+                        </div>
+                        <!--============ End Sidebar ================================================================-->
+                    </div>
+                </div>
+                <!--end container-->
+            </section>
+            <!--end block-->
+        </section>
+        <!--end content-->
+
+        <!--*********************************************************************************************************-->
+        <!--************ FOOTER *************************************************************************************-->
+        <!--*********************************************************************************************************-->
+        <section class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <a href="#" class="brand">
+                            <img src="assets/img/logo.png" alt="">
+                        </a>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
+                            fermentum sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra.
+                        </p>
+                    </div>
+                    <!--end col-md-5-->
+                    <div class="col-md-3">
+                        <h2>Navigation</h2>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <nav>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Listing</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Pages</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Extras</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Contact</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Submit Ad</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <nav>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a href="#">My Ads</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Sign In</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Register</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end col-md-3-->
+                    <div class="col-md-4">
+                        <h2>Contact</h2>
+                        <address>
+                            <figure>
+                                124 Abia Martin Drive<br>
+                                New York, NY 10011
+                            </figure>
+                            <br>
+                            <strong>Email:</strong> <a href="#">hello@example.com</a>
+                            <br>
+                            <strong>Skype: </strong> Craigs
+                            <br>
+                            <br>
+                            <a href="contact.html" class="btn btn-primary text-caps btn-framed">Contact Us</a>
+                        </address>
+                    </div>
+                    <!--end col-md-4-->
+                </div>
+                <!--end row-->
+            </div>
+            <div class="background">
+                <div class="background-image original-size">
+                    <img src="assets/img/footer-background-icons.jpg" alt="">
+                </div>
+                <!--end background-image-->
+            </div>
+            <!--end background-->
+        </section>
+        <!--end footer-->
+    </div>
+    <!--end page-->
+    <%- include('../user-partials/script') %>
+
+    <script>
+        var latitude = 51.511971;
+        var longitude = -0.137597;
+        var markerImage = "assets/img/map-marker.png";
+        var mapTheme = "light";
+        var mapElement = "map-small";
+        simpleMap(latitude, longitude, markerImage, mapTheme, mapElement);
+    </script>
+
+</body>
+</html>

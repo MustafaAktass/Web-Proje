@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const ejslayouts=require('express-ejs-layouts')
 const adminRouter = require('./routes/admin')
+const userRouter = require('./routes/user')
 const bodyParser = require('body-parser');
 const mongoDbConnect = require('./db/mongoDb');
 const authRouter = require('./routes/auth')
@@ -25,7 +26,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookiParser())
 app.use('/admin',adminRouter)
 app.use('/auth',authRouter)
-app.use('/static',express.static(path.join(__dirname,'public/template')));
+app.use('/user',userRouter)
+app.use('/static',express.static(path.join(__dirname,'public/template')));//admin template
+app.use('/userstatic',express.static(path.join(__dirname,'public/userTemplate/html')));
 app.use(express.static(path.join(__dirname,'node_modules')))
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 

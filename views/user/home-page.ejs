@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+    <%- include('../user-partials/head') %>
+<body>
+    <div class="page home-page">
+        <header class="hero">
+            <div class="hero-wrapper">
+                <div class="main-navigation">
+                    <div class="container">
+                        <%- include('../user-partials/navbar') %>
+                    </div>
+                </div>
+                <div class="page-title">
+                    <div class="container">
+                        <h1 class="opacity-40 center">
+                            Aradığın İşletmeyi Bul!
+                        </h1>
+                    </div>
+                </div>
+                <form action="/user/home-page" method="post" class="hero-form form">
+                    <div class="container">
+                        <div class="main-search-form">
+                            <div class="form-row">
+                                <div class="col-md-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label for="what" class="col-form-label">Ne?</label>
+                                        <input name="IsletmeAdi" type="text" class="form-control" id="what" placeholder="Hangi işletmeyi arıyorsun?">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label for="input-location" class="col-form-label">Şehir</label>
+                                        <input name="Sehir" type="text" class="form-control" id="input-location" placeholder="Şehir">
+                                        <span class="geo-location input-group-addon" data-toggle="tooltip" data-placement="top" title="Find My Position"><i class="fa fa-map-marker"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label for="category" class="col-form-label">Kategori</label>
+                                        <select name="Kategori" id="category" data-placeholder="Kategori Seçin">
+                                            <option>Oto Tamir ve Bakım</option>
+                                            <option>Oto Yedek Parça ve Aksesuar</option>
+                                            <option>Lastik ve Jant</option>
+                                            <option>Oto Elektrik ve Elektronik</option>
+                                            <option>Oto Boya ve Kaplama</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <button type="submit" class="btn btn-primary width-100">Ara</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="background">
+                    <div class="background-image original-size">
+                        <img src="assets/img/hero-background-icons.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="content">
+            <section class="block">
+                <div class="container">
+                    <div class="items masonry grid-xl-4-items grid-lg-3-items grid-md-2-items" id="shop-items">
+                        <% if (shopdata.length > 0) { %>
+                            <% for (let index = 0; index < 4 && index < shopdata.length; index++) { %>
+                                <div class="item">
+                                    <div class="wrapper">
+                                        <div class="image">
+                                            <h3>
+                                                <a href="#" class="tag category"><%= shopdata[index].Kategori %></a>
+                                                <a href="/user/shop-detail-page/<%= shopdata[index]._id %>" class="title"><%= shopdata[index].IsletmeAdi %></a>
+                                                <span class="tag">Offer</span>
+                                            </h3>
+                                            <a href="single-listing-1.html" class="image-wrapper background-image">
+                                                <img src="/<%= shopdata[index].resimler[0].dosyaYolu.replace(/\\/g, '/') %>" alt="">
+                                            </a>
+                                        </div>
+                                        <h4 class="location">
+                                            <a href="#"><%= shopdata[index].Adres %></a>
+                                        </h4>
+                                        <div class="price">$80</div>
+                                        <div class="meta">
+                                            <figure>
+                                                <i class="fa fa-calendar-o"></i>02.05.2017
+                                            </figure>
+                                            <figure>
+                                                <a href="#">
+                                                    <i class="fa fa-user"></i><%= shopdata[index].IletisimBilgileri %>
+                                                </a>
+                                            </figure>
+                                        </div>
+                                        <div class="description">
+                                            <p><%= shopdata[index].Aciklama %></p>
+                                        </div>
+                                        <a href="single-listing-1.html" class="detail text-caps underline">Detay</a>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } else { %>
+                            <h1 class="opacity-40 center">
+                                Aramanızla eşleşen kayıt bulunamadı.
+                            </h1>
+                        <% } %>
+                    </div>
+                    <% if (shopdata.length > 4) { %>
+                        <div class="center">
+                            <button id="load-more" class="btn btn-primary btn-framed btn-rounded">Load More</button>
+                        </div>
+                    <% } %>
+                </div>
+            </section>
+        </section>
+    </div>
+    <%- include('../user-partials/script') %>
+    <script>
+    $(document).ready(function() {
+    $('#load-more').click(function() {
+        $.ajax({
+            url: '/user/all-shops',
+            method: 'GET',
+            success: function(data) {
+                const shopItems = $('#shop-items');
+                const newItems = data.map(item => {
+                    // Resim yolunu console.log ile kontrol edelim          
+                    return `
+                        <div class="item">
+                            <div class="wrapper">
+                                <div class="image">
+                                    <h3>
+                                        <a href="#" class="tag category">${item.Kategori}</a>
+                                        <a href="/user/shop-detail-page/${item._id}" class="title">${item.IsletmeAdi}</a>
+                                        <span class="tag">Offer</span>
+                                    </h3>
+                                    <a href="/user/shop-detail-page/${item._id}" class="image-wrapper background-image">
+                                        <img src="/${item.resimler[0].dosyaYolu.replace(/\\/g, '/')}" alt="">
+                                    </a>
+                                </div>
+                                <h4 class="location">
+                                    <a href="#">${item.Adres}</a>
+                                </h4>
+                                <div class="price">$80</div>
+                                <div class="meta">
+                                    <figure>
+                                        <i class="fa fa-calendar-o"></i>02.05.2017
+                                    </figure>
+                                    <figure>
+                                        <a href="#">
+                                            <i class="fa fa-user"></i>${item.IletisimBilgileri}
+                                        </a>
+                                    </figure>
+                                </div>
+                                <div class="description">
+                                    <p>${item.Aciklama}</p>
+                                </div>
+                                <a href="single-listing-1.html" class="detail text-caps underline">Detay</a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                shopItems.append(newItems);
+
+                // Resimlerin yüklendiğinden emin olun
+                $('.background-image img').on('load', function() {
+                    $(this).parent().css('background-image', 'url(' + $(this).attr('src') + ')');
+                });
+
+                $('#load-more').hide();
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+</script>
+</body>
+</html>
