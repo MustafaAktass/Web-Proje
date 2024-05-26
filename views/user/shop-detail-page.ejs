@@ -108,61 +108,134 @@
                             <!--end Features-->
                             <!--Author-->
                             <section>
-                                <h2>Author</h2>
-                                <div class="box">
+                                <h2>Yorum Yaz</h2>
+                                <form class="form">
                                     <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="author">
-                                                <div class="author-image">
-                                                    <div class="background-image">
-                                                        <img src="/userstatic/assets/img/author-01.jpg" alt="">
-                                                    </div>
-                                                </div>
-                                                <!--end author-image-->
-                                                <div class="author-description">
-                                                    <h3>Jane Doe</h3>
-                                                    <div class="rating" data-rating="4"></div>
-                                                    <a href="seller-detail-1.html" class="text-uppercase">Show My Listings
-                                                        <span class="appendix">(12)</span>
-                                                    </a>
-                                                </div>
-                                                <!--end author-description-->
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label for="subject" class="col-form-label">Konu</label>
+                                                <input name="subject" type="text" class="form-control" id="subject" placeholder="Did you like a deal?">
                                             </div>
-                                            <hr>
-                                            <dl>
-                                                <dt>Phone</dt>
-                                                <dd>830-247-0930</dd>
-                                                <dt>Email</dt>
-                                                <dd>hijane@example.com</dd>
-                                            </dl>
-                                            <!--end author-->
+                                            <!--end form-group-->
                                         </div>
-                                        <!--end col-md-5-->
-                                        <div class="col-md-7">
-                                            <form class="form email">
-                                                <div class="form-group">
-                                                    <label for="name" class="col-form-label">Name</label>
-                                                    <input name="name" type="text" class="form-control" id="name" placeholder="Your Name">
-                                                </div>
-                                                <!--end form-group-->
-                                                <div class="form-group">
-                                                    <label for="email" class="col-form-label">Email</label>
-                                                    <input name="email" type="email" class="form-control" id="email" placeholder="Your Email">
-                                                </div>
-                                                <!--end form-group-->
-                                                <div class="form-group">
-                                                    <label for="message" class="col-form-label">Message</label>
-                                                    <textarea name="message" id="message" class="form-control" rows="4" placeholder="Hi there! I am interested in your offer ID 53951. Please give me more details."></textarea>
-                                                </div>
-                                                <!--end form-group-->
-                                                <button type="submit" class="btn btn-primary">Send</button>
-                                            </form>
+                                        <!--end col-md-8-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="rating" class="col-form-label">Değerlendirme</label>
+                                                <select name="rating" id="rating" data-placeholder="Select Rating">
+                                                    <option value="">Değerlendir</option>
+                                                    <option value="1" data-option-stars="1">Kötü</option>
+                                                    <option value="2" data-option-stars="2">Ortalama</option>
+                                                    <option value="3" data-option-stars="3">İyi</option>
+                                                    <option value="4" data-option-stars="4">Çok iyi</option>
+                                                    <option value="5" data-option-stars="5">Mükemmel</option>
+                                                </select>
+                                            </div>
+                                            <!--end form-group-->
                                         </div>
-                                        <!--end col-md-7-->
+                                        <!--end col-md-4-->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="review" class="col-form-label">Yorumun</label>
+                                                <textarea name="review" id="review" class="form-control" rows="4" placeholder="Good seller, I am satisfied."></textarea>
+                                            </div>
+                                            <!--end form-group-->
+                                        </div>
+                                        <!--end col-md-12-->
                                     </div>
                                     <!--end row-->
+                                </form>
+                                <!--end form-->
+                            </section>
+                            <section>
+                                <h2>Reviews</h2>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <div class="author">
+                                            <a href="#" class="author-image">
+                                                <div class="background-image">
+                                                    <img src="assets/img/author-09.jpg" alt="">
+                                                </div>
+                                            </a>
+                                            <div class="author-description">
+                                                <h3>Positive experience!</h3>
+                                                <div class="meta">
+                                                    <span class="rating" data-rating="4"></span>
+                                                    <span>02.05.2017</span>
+                                                    <h5><a href="#">Jane Doe</a></h5>
+                                                </div>
+                                                <!--end meta-->
+                                                <p>
+                                                    Nam pulvinar tortor nec lacinia efficitur. Integer erat tortor, ultricies
+                                                    ut est vel, euismod imperdiet lacus. Aenean nec turpis condimentum, mollis
+                                                    mauris id, scelerisque quam.
+                                                </p>
+                                            </div>
+                                            <!--end author-description-->
+                                        </div>
+                                        <!--end author-->
+                                    </div>
+                                    <!--end comment-->
+
+                                    <div class="comment">
+                                        <div class="author">
+                                            <a href="#" class="author-image">
+                                                <div class="background-image">
+                                                    <img src="assets/img/author-05.jpg" alt="">
+                                                </div>
+                                            </a>
+                                            <div class="author-description">
+                                                <h3>Perfect seller. I am satisfied.</h3>
+                                                <div class="meta">
+                                                    <span class="rating" data-rating="5"></span>
+                                                    <span>02.05.2017</span>
+                                                    <h5><a href="#">John Doe</a></h5>
+                                                </div>
+                                                <!--end meta-->
+                                                <p>
+                                                    Integer erat tortor, ultricies ut est vel, euismod imperdiet lacus.
+                                                    Aenean nec turpis condimentum, mollis mauris id, scelerisque quam.
+                                                </p>
+                                            </div>
+                                            <!--end author-description-->
+                                        </div>
+                                        <!--end author-->
+                                    </div>
+                                    <!--end comment-->
+
+                                    <div class="comment">
+                                        <div class="author">
+                                            <a href="#" class="author-image">
+                                                <div class="background-image">
+                                                    <img src="assets/img/author-04.jpg" alt="">
+                                                </div>
+                                            </a>
+                                            <div class="author-description">
+                                                <h3>Quick dispatch and good communication</h3>
+                                                <div class="meta">
+                                                    <span class="rating" data-rating="3"></span>
+                                                    <span>02.05.2017</span>
+                                                    <h5><a href="#">Susan Jefferson</a></h5>
+                                                </div>
+                                                <!--end meta-->
+                                                <p>
+                                                    Cras luctus aliquet fringilla. In eu cursus nunc. Quisque dolor leo,
+                                                    vehicula a sem ut, aliquam pretium tellus. Morbi ut mi eleifend,
+                                                    sollicitudin nisl in, elementum nisi. Praesent sed libero euismod,
+                                                    pellentesque risus sit amet, faucibus lorem. Pellentesque bibendum
+                                                    libero sed tempor tristique.
+                                                </p>
+                                            </div>
+                                            <!--end author-description-->
+                                        </div>
+                                        <!--end author-->
+                                    </div>
+                                    <!--end comment-->
                                 </div>
-                                <!--end box-->
+                                <!--end comment-->
+                                <div class="center">
+                                    <a href="#" class="btn btn-primary btn-rounded btn-framed">Load More</a>
+                                </div>
                             </section>
                             <!--End Author-->
                         </div>
@@ -202,11 +275,7 @@
                                                         </figure>
                                                     </div>
                                                     <!--end meta-->
-                                                    <div class="description">
-                                                        <p><%= shopdataList[index].Aciklama %></p>
-                                                    </div>
-                                                    <!--end description-->
-                                                    <a href="single-listing-1.html" class="detail text-caps underline">Detay</a>
+                                                    
                                                 </div>
                                             </div>
                                             <% } %>

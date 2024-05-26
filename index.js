@@ -10,6 +10,7 @@ const dotenv = require('dotenv');
 const cookiParser = require('cookie-parser');
 
 
+
 dotenv.config();
 
 const app = express()
@@ -24,14 +25,23 @@ app.set('layout', 'layouts/layout');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookiParser())
-app.use('/admin',adminRouter)
-app.use('/auth',authRouter)
-app.use('/user',userRouter)
+
+
 app.use('/static',express.static(path.join(__dirname,'public/template')));//admin template
 app.use('/userstatic',express.static(path.join(__dirname,'public/userTemplate/html')));
 app.use(express.static(path.join(__dirname,'node_modules')))
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 
+app.use('/admin',adminRouter)
+app.use('/auth',authRouter)
+app.use('/user',userRouter)
+
+
+app.use('*', (req, res) => {
+    res.status(404).render('./admin/404',{
+        layout: false
+    });
+})
 app.listen(3000,()=>{
     console.log('server running');
 })

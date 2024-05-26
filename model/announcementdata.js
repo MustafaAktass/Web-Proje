@@ -7,7 +7,8 @@ const announcementdata = new mongoose.Schema({
     Tarih: String,
     resimler: [{
         dosyaYolu: String
-    }]
+    }],
+    Yorumlar: [{ type: mongoose.Schema.Types.ObjectId, ref: 'commentdatas' }]
 });
 
 module.exports = mongoose.model('announcementdatas', announcementdata);

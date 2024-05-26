@@ -1,7 +1,6 @@
 const collection = require("../model/user");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 exports.loginPage=(req,res,next)=>{
     res.render('auth/login',{layout:false})
 }
@@ -30,34 +29,33 @@ exports.register= async(req,res,next)=>{
     }
     //res.render('auth/register')
 }
-exports.login=async(req,res,next)=>{
-    try{
-        const check = await collection.findOne({name:req.body.username});
-        if(check){
-            const isPasswordMatch = await bcrypt.compare(req.body.password,check.password);
-            if(isPasswordMatch){
-                const token = createToken(check._id)
-                res.cookie("cookieJWT",token,{
-                    httpOnly:true,
-                    maxAge:1000*60*60*24
-                })
-                res.redirect('/admin');
-            }
-            else{
+exports.login = async (req, res, next) => {
+    try {
+        const check = await collection.findOne({ name: req.body.username });
+        if (check) {
+            const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
+            if (isPasswordMatch) {
+                const token = createToken(check._id, check.role); // role bilgisini ekliyoruz
+                res.cookie("cookieJWT", token, {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60 * 24
+                });
+                res.redirect('/user/home-page');
+            } else {
                 res.send("Kullanıcı adı veya şifre hatalı");
             }
         }
+    } catch {
+        res.send("Hatalı Giden Bir Şeyler Oldu");
     }
-    catch{
-         res.send("Hatalı Giden Bir Şeyler Oldu")
-    }
-}
+};
 exports.logout = (req, res) => {
     res.clearCookie('cookieJWT');
     res.redirect('/auth/login');
 };
-const createToken = (userId)=>{
-    return jwt.sign({userId},process.env.JWT_SECRET,{
-        expiresIn:"1d",
+const createToken = (userId, role) => {
+    return jwt.sign({ userId, role }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
     });
-}
+};
+

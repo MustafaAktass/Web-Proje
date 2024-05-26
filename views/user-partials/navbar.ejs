@@ -10,7 +10,10 @@
         <ul class="navbar-nav">
             <a class="nav-link" href="/user/home-page">Ana sayfa</a>
             <a class="nav-link" href="/user/shop-page">İşletmeler</a>
-            <a class="nav-link" href="/user/announcement-page">Duyurular</a>
+            <a class="nav-link" href="/user/announcement-page">Duyurular</a>  
+            <% if(userRole =="admin") {%>
+                <a class="nav-link" href="/admin/">Admin Paneli</a> 
+                <% } %> 
             <a class="nav-link" href="#">Giriş Yap</a>
             <a class="nav-link" href="#">Kayıt Ol</a>
         </ul>

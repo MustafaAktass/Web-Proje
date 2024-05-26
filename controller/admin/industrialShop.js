@@ -1,5 +1,7 @@
 const upload = require("../../middleware/fileUpload")
 const ShopData = require("../../model/shopdata")
+const User = require("../../model/user")
+
 exports.processIndustrialShop = async(req,res)=>{
     try{
     upload(req,res,async(err)=>{
@@ -33,16 +35,35 @@ exports.processIndustrialShop = async(req,res)=>{
         res.status(500).json({ message: err.message });
     }
 }
-exports.homePage=(req,res,next)=>{
-    res.render('admin/index')
+exports.homePage=async (req,res,next)=>{
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
+    res.render('admin/index',{
+        userName,
+        userRole
+    });
 }
-exports.addIndustrialShop=(req,res,next)=>{
-    res.render('admin/add-industrial-shop')
+exports.addIndustrialShop= async(req,res,next)=>{
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
+    res.render('admin/add-industrial-shop',{
+        userName,
+        userRole
+    })
 }
 exports.listIndustrialShop= async (req,res,next)=>{
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
     try{
         const data = await ShopData.find();
-        res.render('admin/list-industrial-shop', { shopdata : data  });
+        res.render('admin/list-industrial-shop', { 
+            shopdata : data,
+            userName,
+            userRole
+          });
     }
     catch (err) {
         res.status(500).json({ message: err.message }); 
@@ -60,12 +81,19 @@ exports.deleteIndustrialShop = async (req, res, next) => {
     }
 }
 exports.editIndustrialShop = async (req, res, next) => {
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
     try {
         const data = await ShopData.findById(req.params.id);
         if (!data) {
             return res.status(404).send('İşletme bulunamadı');
         }
-        res.render('admin/edit-industrial-shop', { shopdata: data });
+        res.render('admin/edit-industrial-shop', { 
+            shopdata: data,
+            userName,
+            userRole
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

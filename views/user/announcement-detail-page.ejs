@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<%- include('../user-partials/head') %>
+</head>
+<body>
+    <div class="page sub-page">
+        <!--*********************************************************************************************************-->
+        <!--************ HERO ***************************************************************************************-->
+        <!--*********************************************************************************************************-->
+        <header class="hero">
+            <div class="hero-wrapper">
+                <!--============ Secondary Navigation ===============================================================-->
+                <!--============ End Secondary Navigation ===========================================================-->
+                <!--============ Main Navigation ====================================================================-->
+                <div class="main-navigation">
+                    <div class="container">
+                        <%- include('../user-partials/navbar') %>
+                        <!--end navbar-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Ana sayfa</a></li>
+                            <li class="breadcrumb-item"><a href="#">Duyurular</a></li>
+                        </ol>
+                        <!--end breadcrumb-->
+                    </div>
+                    <!--end container-->
+                </div>
+                <!--============ End Main Navigation ================================================================-->
+                <!--============ Page Title =========================================================================-->
+                <div class="page-title">
+                    <div class="container">
+                        <h1>Blog Post Single</h1>
+                    </div>
+                    <!--end container-->
+                </div>
+                <!--============ End Page Title =====================================================================-->
+                <div class="background"></div>
+                <!--end background-->
+            </div>
+            <!--end hero-wrapper-->
+        </header>
+        <!--end hero-->
+
+        <!--*********************************************************************************************************-->
+        <!--************ CONTENT ************************************************************************************-->
+        <!--*********************************************************************************************************-->
+        <section class="content">
+            <section class="block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            
+                            <article class="blog-post clearfix">
+                                <a href="blog-post.html">
+                                    <img src="assets/img/blog-image-01.jpg" alt="">
+                                </a>
+                                <div class="article-title">
+                                    <h2><a href="blog-post.html"><%= announcementdata.DuyuruAdi %></a></h2>
+                                    <div class="tags framed">
+                                        <a href="#" class="tag"><%= announcementdata.Kategori %></a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="meta">
+                                    <figure>
+                                        <a href="#" class="icon">
+                                            <i class="fa fa-user"></i>
+                                            John Doe
+                                        </a>
+                                    </figure>
+                                    <figure>
+                                        <i class="fa fa-calendar-o"></i>
+                                       <%= announcementdata.Tarih %>
+                                    </figure>
+                                </div>
+                                <div class="blog-post-content">
+                                    <p>
+                                        <%= announcementdata.Aciklama %>
+                                    </p>
+                                    <hr>
+                                    <!--end author-->
+                                </div>
+                                <!--end blog-post-content-->
+                            </article>
+
+                            <!--end Article-->
+                            <hr>
+                            <section>
+                                <h2>Yorumlar</h2>
+                                <div class="comments">
+                                    <% announcementdata.Yorumlar.forEach(function(yorum) { %>
+                                    <div class="comment">
+                                        <div class="author">
+                                            <a href="#" class="author-image">
+                                                <div class="background-image">
+                                                    <img src="assets/img/author-09.jpg" alt="">
+                                                </div>
+                                            </a>
+                                            <div class="author-description">
+                                                <h3><%= yorum.yazar.name %></h3>
+                                                <div class="meta">
+                                                    <span><%= yorum.tarih %></span>
+                                                </div>
+                                                <!--end meta-->
+                                                <p>
+                                                    <%= yorum.icerik %>
+                                                </p>
+                                            </div>
+                                            <!--end author-description-->
+                                        </div>
+                                        <!--end author-->
+                                    </div>
+                                    <% }); %>
+                                </div>
+                                
+                                <!--end comments-->
+                            </section>
+                            <section>
+                                <h2>Yorum Ekle</h2>
+                                <form action="/user/announcement-detail-page/<%= announcementdata._id %>" method="post" class="form">
+                                    <input type="hidden" name="postId" value="<%= announcementdata._id %>">
+                                    <div class="row">      
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="comment" class="col-form-label">Yorumun</label>
+                                                <textarea name="icerik" id="comment" class="form-control" rows="4" placeholder="Yorum"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary float-right">Gönder</button>
+                                </form>                                
+                                <!--end form-->
+                            </section>
+                        </div>
+                        <!--end col-md-8-->
+
+                        <div class="col-md-4">
+                            <!--============ Side Bar ===============================================================-->
+                            <aside class="sidebar">
+                                <section>
+                                    <h2>Search Blog</h2>
+                                    <!--============ Side Bar Search Form ===========================================-->
+                                    <form class="sidebar-form form">
+                                        <div class="form-group">
+                                            <label for="what" class="col-form-label">What?</label>
+                                            <input name="keyword" type="text" class="form-control" id="what" placeholder="Enter keyword and press enter">
+                                        </div>
+                                        <!--end form-group-->
+                                    </form>
+                                    <!--============ End Side Bar Search Form =======================================-->
+                                </section>
+                                <section>
+                                    <h2>Popular Posts</h2>
+                                    <div class="sidebar-post">
+                                        <a href="blog-post.html" class="background-image">
+                                            <img src="assets/img/blog-image-03.jpg">
+                                        </a>
+                                        <!--end background-image-->
+                                        <div class="description">
+                                            <h4>
+                                                <a href="blog-post.html">How to build a cool swimming pool</a>
+                                            </h4>
+                                            <div class="meta">
+                                                <a href="#">John Doe</a>
+                                                <figure>02.05.2017</figure>
+                                            </div>
+                                            <!--end meta-->
+                                        </div>
+                                        <!--end description-->
+                                    </div>
+                                    <!--end sidebar-post-->
+
+                                    <div class="sidebar-post">
+                                        <a href="blog-post.html" class="background-image">
+                                            <img src="assets/img/blog-image-04.jpg">
+                                        </a>
+                                        <!--end background-image-->
+                                        <div class="description">
+                                            <h4>
+                                                <a href="blog-post.html">Concrete decorations can be beautiful</a>
+                                            </h4>
+                                            <div class="meta">
+                                                <a href="#">John Doe</a>
+                                                <figure>02.05.2017</figure>
+                                            </div>
+                                            <!--end meta-->
+                                        </div>
+                                        <!--end description-->
+                                    </div>
+                                    <!--end sidebar-post-->
+
+                                    <div class="sidebar-post">
+                                        <a href="blog-post.html" class="background-image">
+                                            <img src="assets/img/blog-image-05.jpg">
+                                        </a>
+                                        <!--end background-image-->
+                                        <div class="description">
+                                            <h4>
+                                                <a href="blog-post.html">Let’s take a break</a>
+                                            </h4>
+                                            <div class="meta">
+                                                <a href="#">John Doe</a>
+                                                <figure>02.05.2017</figure>
+                                            </div>
+                                            <!--end meta-->
+                                        </div>
+                                        <!--end description-->
+                                    </div>
+                                    <!--end sidebar-post-->
+
+                                </section>                 
+                            </aside>
+                            <!--============ End Side Bar ===========================================================-->
+                        </div>
+                        <!--end col-md-3-->
+                    </div>
+                </div>
+                <!--end container-->
+            </section>
+            <!--end block-->
+        </section>
+        <!--end content-->
+
+        <!--*********************************************************************************************************-->
+        <!--************ FOOTER *************************************************************************************-->
+        <!--*********************************************************************************************************-->
+        <footer class="footer">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <a href="#" class="brand">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
+                                fermentum sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra.
+                            </p>
+                        </div>
+                        <!--end col-md-5-->
+                        <div class="col-md-3">
+                            <h2>Navigation</h2>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <nav>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <a href="#">Home</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Listing</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Pages</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Extras</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Contact</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Submit Ad</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <nav>
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <a href="#">My Ads</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Sign In</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Register</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end col-md-3-->
+                        <div class="col-md-4">
+                            <h2>Contact</h2>
+                            <address>
+                                <figure>
+                                    124 Abia Martin Drive<br>
+                                    New York, NY 10011
+                                </figure>
+                                <br>
+                                <strong>Email:</strong> <a href="#">hello@example.com</a>
+                                <br>
+                                <strong>Skype: </strong> Craigs
+                                <br>
+                                <br>
+                                <a href="contact.html" class="btn btn-primary text-caps btn-framed">Contact Us</a>
+                            </address>
+                        </div>
+                        <!--end col-md-4-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <div class="background">
+                    <div class="background-image original-size">
+                        <img src="assets/img/footer-background-icons.jpg" alt="">
+                    </div>
+                    <!--end background-image-->
+                </div>
+                <!--end background-->
+            </div>
+        </footer>
+        <!--end footer-->
+    </div>
+    <!--end page-->
+
+	<%- include('../user-partials/script') %>
+
+</body>
+</html>

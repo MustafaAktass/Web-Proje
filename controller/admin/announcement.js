@@ -1,5 +1,6 @@
 const upload = require("../../middleware/fileUpload")
 const AnnouncementData = require("../../model/announcementdata")
+const User = require("../../model/user")
 
 function getCurrentDateTime() {
     // Bugünün tarihini ve saatini al
@@ -9,7 +10,7 @@ function getCurrentDateTime() {
     const date = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
 
     // Saat formatı: Saat:Dakika:Saniye
-    const time = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+    const time = now.getHours() + ':' + now.getMinutes();
 
     // Tarih ve saat stringlerini birleştir
     const dateTime = date + ' ' + time;
@@ -50,13 +51,26 @@ exports.processAnnouncement = async(req,res)=>{
     }
 }
 
-exports.addAnnouncement=(req,res,next)=>{
-    res.render('admin/add-announcement')
+exports.addAnnouncement=async(req,res,next)=>{
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
+    res.render('admin/add-announcement',{
+        userName,
+        userRole
+    })
 }
 exports.listAnnouncement= async (req,res,next)=>{
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
     try{
         const data = await AnnouncementData.find();
-        res.render('admin/list-announcement', { announcementdata : data  });
+        res.render('admin/list-announcement', { 
+            announcementdata : data,
+            userName,
+            userRole
+        });
     }
     catch (err) {
         res.status(500).json({ message: err.message }); 
@@ -74,12 +88,19 @@ exports.deleteAnnouncement = async (req, res, next) => {
     }
 }
 exports.displayAnnouncement = async (req, res, next) => {
+    const userRole = req.user.role;
+    const user = await User.findById(req.user.userId);
+    const userName = user.name;
     try {
         const data = await AnnouncementData.findById(req.params.id);
         if (!data) {
             return res.status(404).send('Duyuru bulunamadı');
         }
-        res.render('admin/display-announcement', { announcementdata: data });
+        res.render('admin/display-announcement', { 
+            announcementdata: data,
+            userRole,
+            userName 
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
