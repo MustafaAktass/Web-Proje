@@ -1,6 +1,7 @@
 const upload = require("../../middleware/fileUpload")
 const ShopData = require("../../model/shopdata")
 const User = require("../../model/user")
+const uniqueSlug = require("../../middleware/uniqueSlug")
 
 exports.processIndustrialShop = async(req,res)=>{
     try{
@@ -11,11 +12,13 @@ exports.processIndustrialShop = async(req,res)=>{
         else{
             const { IsletmeAdi, Kategori, Adres, IletisimBilgileri, Sehir, Aciklama } = req.body;
                 
+            const slug = await uniqueSlug(ShopData, 'slug', IsletmeAdi);
+
                 // Yüklenen her dosya için dosya yollarını alıp resimler dizisine ekleyelim
                 const resimler = req.files.map(file => {
                     return { dosyaYolu: file.path };
                 });
-
+                
                 const data = new ShopData({
                     IsletmeAdi,
                     Kategori,
@@ -23,6 +26,7 @@ exports.processIndustrialShop = async(req,res)=>{
                     IletisimBilgileri,
                     Sehir,
                     Aciklama,
+                    slug,
                     resimler: resimler // Resimleri modele ekleyelim
                 });
 
@@ -35,15 +39,7 @@ exports.processIndustrialShop = async(req,res)=>{
         res.status(500).json({ message: err.message });
     }
 }
-exports.homePage=async (req,res,next)=>{
-    const userRole = req.user.role;
-    const user = await User.findById(req.user.userId);
-    const userName = user.name;
-    res.render('admin/index',{
-        userName,
-        userRole
-    });
-}
+
 exports.addIndustrialShop= async(req,res,next)=>{
     const userRole = req.user.role;
     const user = await User.findById(req.user.userId);

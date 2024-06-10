@@ -71,8 +71,8 @@
                                         <div class="image">
                                             <h3>
                                                 <a href="#" class="tag category"><%= shopdata[index].Kategori %></a>
-                                                <a href="/user/shop-detail-page/<%= shopdata[index]._id %>" class="title"><%= shopdata[index].IsletmeAdi %></a>
-                                                <span class="tag">Offer</span>
+                                                <a href="/user/shop-detail-page/<%= shopdata[index].slug %>" class="title"><%= shopdata[index].IsletmeAdi %></a>
+                                                
                                             </h3>
                                             <a href="single-listing-1.html" class="image-wrapper background-image">
                                                 <img src="/<%= shopdata[index].resimler[0].dosyaYolu.replace(/\\/g, '/') %>" alt="">
@@ -81,10 +81,10 @@
                                         <h4 class="location">
                                             <a href="#"><%= shopdata[index].Adres %></a>
                                         </h4>
-                                        <div class="price">$80</div>
+                                        
                                         <div class="meta">
                                             <figure>
-                                                <i class="fa fa-calendar-o"></i>02.05.2017
+                                                <i class="fa fa-calendar-o"></i><%= shopdata[index].olusturmaTarihi %>
                                             </figure>
                                             <figure>
                                                 <a href="#">
@@ -95,7 +95,7 @@
                                         <div class="description">
                                             <p><%= shopdata[index].Aciklama %></p>
                                         </div>
-                                        <a href="single-listing-1.html" class="detail text-caps underline">Detay</a>
+                                        <a href="/user/shop-detail-page/<%= shopdata[index].slug %>" class="detail text-caps underline">Detay</a>
                                     </div>
                                 </div>
                             <% } %>
@@ -115,6 +115,7 @@
         </section>
     </div>
     <%- include('../user-partials/script') %>
+    
     <script>
     $(document).ready(function() {
     $('#load-more').click(function() {
@@ -131,20 +132,20 @@
                                 <div class="image">
                                     <h3>
                                         <a href="#" class="tag category">${item.Kategori}</a>
-                                        <a href="/user/shop-detail-page/${item._id}" class="title">${item.IsletmeAdi}</a>
-                                        <span class="tag">Offer</span>
+                                        <a href="/user/shop-detail-page/${item.slug}" class="title">${item.IsletmeAdi}</a>
+                                        
                                     </h3>
-                                    <a href="/user/shop-detail-page/${item._id}" class="image-wrapper background-image">
+                                    <a href="/user/shop-detail-page/${item.slug}" class="image-wrapper background-image">
                                         <img src="/${item.resimler[0].dosyaYolu.replace(/\\/g, '/')}" alt="">
                                     </a>
                                 </div>
                                 <h4 class="location">
                                     <a href="#">${item.Adres}</a>
                                 </h4>
-                                <div class="price">$80</div>
+                                
                                 <div class="meta">
                                     <figure>
-                                        <i class="fa fa-calendar-o"></i>02.05.2017
+                                        <i class="fa fa-calendar-o"></i>${item.olusturmaTarihi}
                                     </figure>
                                     <figure>
                                         <a href="#">
@@ -155,7 +156,7 @@
                                 <div class="description">
                                     <p>${item.Aciklama}</p>
                                 </div>
-                                <a href="single-listing-1.html" class="detail text-caps underline">Detay</a>
+                                <a href="/user/shop-detail-page/${item.slug}" class="detail text-caps underline">Detay</a>
                             </div>
                         </div>
                     `;

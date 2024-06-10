@@ -53,18 +53,18 @@
                         <div class="col-md-8">
                             <% for (let index = 0; index < announcementdata.length; index++) { %>
                             <article class="blog-post clearfix">
-                                <a href="/user/announcement-detail-page/<%= announcementdata[index]._id %>">
-                                    <img src="/userstatic/assets/img/blog-image-01.jpg" alt="">
+                                <a href="/user/announcement-detail-page/<%= announcementdata[index].slug %>">
+                                    <img src="/<%= announcementdata[index].resimler[0].dosyaYolu.replace(/\\/g, '/') %>" alt="">
                                 </a>
                                 <div class="article-title">
-                                    <h2><a href="/user/announcement-detail-page/<%= announcementdata[index]._id %>"><%= announcementdata[index].DuyuruAdi %></a></h2>
+                                    <h2><a href="/user/announcement-detail-page/<%= announcementdata[index].slug %>"><%= announcementdata[index].DuyuruAdi %></a></h2>
                                     <div class="tags framed">
-                                        <a href="#" class="tag"><%= announcementdata[index].Kategori %></a>
+                                        <a  class="tag"><%= announcementdata[index].Kategori %></a>
                                     </div>
                                 </div>
                                 <div class="meta">
                                     <figure>
-                                        <a href="#" class="icon">
+                                        <a class="icon">
                                             <i class="fa fa-user"></i>
                                             John Doe
                                         </a>
@@ -78,7 +78,7 @@
                                     <p>
                                         <%= announcementdata[index].Aciklama %>
                                     </p>
-                                    <a href="/user/announcement-detail-page/<%= announcementdata[index]._id %>" class="btn btn-primary btn-framed detail">Daha Fazlası</a>
+                                    <a href="/user/announcement-detail-page/<%= announcementdata[index].slug %>" class="btn btn-primary btn-framed detail">Daha Fazlası</a>
                                 </div>
                             </article>
                             <% } %>
@@ -87,28 +87,20 @@
                             <div class="page-pagination">
                                 <nav aria-label="Pagination">
                                     <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                        <span aria-hidden="true">
-                                            <i class="fa fa-chevron-left"></i>
-                                        </span>
+                                        <li class="page-item <%= current == 1 ? 'disabled' : '' %>">
+                                            <a class="page-link" href="?page=<%= current - 1 %>" aria-label="Previous">
+                                                <span aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
                                                 <span class="sr-only">Previous</span>
                                             </a>
                                         </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                        <span aria-hidden="true">
-                                            <i class="fa fa-chevron-right"></i>
-                                        </span>
+                                        <% for(let i = 1; i <= pages; i++) { %>
+                                            <li class="page-item <%= current == i ? 'active' : '' %>">
+                                                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                                            </li>
+                                        <% } %>
+                                        <li class="page-item <%= current == pages ? 'disabled' : '' %>">
+                                            <a class="page-link" href="?page=<%= current + 1 %>" aria-label="Next">
+                                                <span aria-hidden="true"><i class="fa fa-chevron-right"></i></span>
                                                 <span class="sr-only">Next</span>
                                             </a>
                                         </li>
@@ -123,74 +115,45 @@
                             <!--============ Side Bar ===============================================================-->
                             <aside class="sidebar">
                                 <section>
-                                    <h2>Search Blog</h2>
+                                    <h2>Duyuru Ara</h2>
                                     <!--============ Side Bar Search Form ===========================================-->
-                                    <form class="sidebar-form form">
+                                    <form class="sidebar-form form" method="GET" action="/user/search-announcement">
                                         <div class="form-group">
-                                            <label for="what" class="col-form-label">What?</label>
-                                            <input name="keyword" type="text" class="form-control" id="what" placeholder="Enter keyword and press enter">
+                                            <label for="what" class="col-form-label">Ne Arıyorsunuz?</label>
+                                            <input name="keyword" type="text" class="form-control" id="what" placeholder="Arramak istediğiniz şeyi girin">
                                         </div>
                                         <!--end form-group-->
                                     </form>
                                     <!--============ End Side Bar Search Form =======================================-->
                                 </section>
                                 <section>
-                                    <h2>Popular Posts</h2>
-                                    <div class="sidebar-post">
-                                        <a href="blog-post.html" class="background-image">
-                                            <img src="assets/img/blog-image-03.jpg">
-                                        </a>
-                                        <!--end background-image-->
-                                        <div class="description">
-                                            <h4>
-                                                <a href="blog-post.html">How to build a cool swimming pool</a>
-                                            </h4>
-                                            <div class="meta">
-                                                <a href="#">John Doe</a>
-                                                <figure>02.05.2017</figure>
+                                    <h2>Popüler Duyurular</h2>
+                                    <% popularAnnouncements.forEach(announcement => { %>
+                                        <div class="sidebar-post">
+                                            <a href="/announcement/<%= announcement.slug %>" class="background-image">
+                                                <% if (announcement.resimler && announcement.resimler.length > 0) { %>
+                                                    <img src="/<%= announcement.resimler[0].dosyaYolu.replace(/\\/g, '/') %>" alt="<%= announcement.DuyuruAdi %>">
+                                                <% } else { %>
+                                                    <img src="default-image-path.jpg" alt="<%= announcement.DuyuruAdi %>">
+                                                <% } %>
+                                            </a>
+                                            <div class="description">
+                                                <h4>
+                                                    <a href="/user/announcement-detail-page/<%= announcement.slug %>"><%= announcement.DuyuruAdi %></a>
+                                                </h4>
+                                                <div class="meta">
+                                                    <a ><%= announcement.Yorumlar.length %> yorum</a>
+                                                    <figure><%= announcement.Tarih %></figure>
+                                                </div>
                                             </div>
-                                            <!--end meta-->
                                         </div>
-                                        <!--end description-->
-                                    </div>
+                                    <% }) %>
                                     <!--end sidebar-post-->
 
-                                    <div class="sidebar-post">
-                                        <a href="blog-post.html" class="background-image">
-                                            <img src="assets/img/blog-image-04.jpg">
-                                        </a>
-                                        <!--end background-image-->
-                                        <div class="description">
-                                            <h4>
-                                                <a href="blog-post.html">Concrete decorations can be beautiful</a>
-                                            </h4>
-                                            <div class="meta">
-                                                <a href="#">John Doe</a>
-                                                <figure>02.05.2017</figure>
-                                            </div>
-                                            <!--end meta-->
-                                        </div>
-                                        <!--end description-->
-                                    </div>
+                                    
                                     <!--end sidebar-post-->
 
-                                    <div class="sidebar-post">
-                                        <a href="blog-post.html" class="background-image">
-                                            <img src="assets/img/blog-image-05.jpg">
-                                        </a>
-                                        <!--end background-image-->
-                                        <div class="description">
-                                            <h4>
-                                                <a href="blog-post.html">Let’s take a break</a>
-                                            </h4>
-                                            <div class="meta">
-                                                <a href="#">John Doe</a>
-                                                <figure>02.05.2017</figure>
-                                            </div>
-                                            <!--end meta-->
-                                        </div>
-                                        <!--end description-->
-                                    </div>
+                                    
                                     <!--end sidebar-post-->
 
                                 </section>          
@@ -209,98 +172,11 @@
         <!--*********************************************************************************************************-->
         <!--************ FOOTER *************************************************************************************-->
         <!--*********************************************************************************************************-->
-        <footer class="footer">
-            <div class="wrapper">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <a href="#" class="brand">
-                                <img src="assets/img/logo.png" alt="">
-                            </a>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
-                                fermentum sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra.
-                            </p>
-                        </div>
-                        <!--end col-md-5-->
-                        <div class="col-md-3">
-                            <h2>Navigation</h2>
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <nav>
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="#">Home</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Listing</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Pages</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Extras</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Contact</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Submit Ad</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <nav>
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="#">My Ads</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Sign In</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Register</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                        <!--end col-md-3-->
-                        <div class="col-md-4">
-                            <h2>Contact</h2>
-                            <address>
-                                <figure>
-                                    124 Abia Martin Drive<br>
-                                    New York, NY 10011
-                                </figure>
-                                <br>
-                                <strong>Email:</strong> <a href="#">hello@example.com</a>
-                                <br>
-                                <strong>Skype: </strong> Craigs
-                                <br>
-                                <br>
-                                <a href="contact.html" class="btn btn-primary text-caps btn-framed">Contact Us</a>
-                            </address>
-                        </div>
-                        <!--end col-md-4-->
-                    </div>
-                    <!--end row-->
-                </div>
-                <div class="background">
-                    <div class="background-image original-size">
-                        <img src="assets/img/footer-background-icons.jpg" alt="">
-                    </div>
-                    <!--end background-image-->
-                </div>
-                <!--end background-->
-            </div>
-        </footer>
+        <%- include('../user-partials/footer') %>
         <!--end footer-->
     </div>
     <!--end page-->
-
+    
 	<%- include('../user-partials/script') %>
 
 </body>

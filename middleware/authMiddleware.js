@@ -51,6 +51,24 @@ exports.authorizeAdmin = (req, res, next) => {
     }
 };
 
+exports.tokenControl = (req, res, next) => {
+    if (req.cookies.cookieJWT) {
+        req.tokenControl = true;
+    } else {
+        req.tokenControl = false;
+    }
+    next();
+};
+
+exports.userRole = (req, res, next) => {
+    if (req.user && req.user.role) {
+        req.userRole = req.user.role;
+    } else {
+        req.userRole = null; // Veya uygun bir varsayılan değer
+    }
+    next();
+};
+
 
 
 

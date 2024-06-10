@@ -1,23 +1,7 @@
 const upload = require("../../middleware/fileUpload")
 const AnnouncementData = require("../../model/announcementdata")
 const User = require("../../model/user")
-
-function getCurrentDateTime() {
-    // Bugünün tarihini ve saatini al
-    const now = new Date();
-
-    // Tarih formatı: Gün/Ay/Yıl
-    const date = now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear();
-
-    // Saat formatı: Saat:Dakika:Saniye
-    const time = now.getHours() + ':' + now.getMinutes();
-
-    // Tarih ve saat stringlerini birleştir
-    const dateTime = date + ' ' + time;
-
-    // Birleştirilmiş stringi return et
-    return dateTime;
-}
+const uniqueSlug = require("../../middleware/uniqueSlug")
 
 exports.processAnnouncement = async(req,res)=>{
     try{
@@ -27,7 +11,9 @@ exports.processAnnouncement = async(req,res)=>{
         }
         else{
             const { DuyuruAdi, Kategori, Aciklama } = req.body;
-                
+            
+            const slug = await uniqueSlug(AnnouncementData, 'slug', DuyuruAdi);
+
                 // Yüklenen her dosya için dosya yollarını alıp resimler dizisine ekleyelim
                 const resimler = req.files.map(file => {
                     return { dosyaYolu: file.path };
@@ -37,7 +23,7 @@ exports.processAnnouncement = async(req,res)=>{
                     DuyuruAdi,
                     Kategori,
                     Aciklama,
-                    Tarih:getCurrentDateTime(),
+                    slug,
                     resimler: resimler // Resimleri modele ekleyelim
                 });
 

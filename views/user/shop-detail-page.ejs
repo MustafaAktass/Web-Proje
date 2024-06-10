@@ -28,8 +28,7 @@
                 <div class="page-title">
                     <div class="container clearfix">
                         <div class="float-left float-xs-none">
-                            <h1><%= shopdata.IsletmeAdi %>
-                                <span class="tag">Offer</span>
+                            <h1><%= shopdata.IsletmeAdi %>                               
                             </h1>
                             <h4 class="location">
                                 <a href="#"><%= shopdata.Adres %></a>
@@ -154,7 +153,7 @@
                                         <div class="author">
                                             <a href="#" class="author-image">
                                                 <div class="background-image">
-                                                    <img src="assets/img/author-09.jpg" alt="">
+                                                    <img src="/userstatic/assets/img/author-09.jpg" alt="">
                                                 </div>
                                             </a>
                                             <div class="author-description">
@@ -181,7 +180,7 @@
                                         <div class="author">
                                             <a href="#" class="author-image">
                                                 <div class="background-image">
-                                                    <img src="assets/img/author-05.jpg" alt="">
+                                                    <img src="/userstatic/assets/img/author-05.jpg" alt="">
                                                 </div>
                                             </a>
                                             <div class="author-description">
@@ -207,7 +206,7 @@
                                         <div class="author">
                                             <a href="#" class="author-image">
                                                 <div class="background-image">
-                                                    <img src="assets/img/author-04.jpg" alt="">
+                                                    <img src="/userstatic/assets/img/author-04.jpg" alt="">
                                                 </div>
                                             </a>
                                             <div class="author-description">
@@ -251,9 +250,8 @@
                                                 <div class="wrapper">
                                                     <div class="image">
                                                         <h3>
-                                                            <a href="#" class="tag category"><%= shopdataList[index].Kategori %></a>
-                                                            <a href="/user/shop-detail-page/<%= shopdataList[index]._id %>" class="title"><%= shopdataList[index].IsletmeAdi %></a>
-                                                            <span class="tag">Offer</span>
+                                                            <a class="tag category"><%= shopdataList[index].Kategori %></a>
+                                                            <a href="/user/shop-detail-page/<%= shopdataList[index].slug %>" class="title"><%= shopdataList[index].IsletmeAdi %></a>
                                                         </h3>
                                                         <a href="single-listing-1.html" class="image-wrapper background-image">
                                                             <img src="/<%= shopdataList[index].resimler[0].dosyaYolu.replace(/\\/g, '/') %>" alt="">
@@ -261,15 +259,15 @@
                                                     </div>
                                                     <!--end image-->
                                                     <h4 class="location">
-                                                        <a href="#"><%= shopdataList[index].Adres %></a>
+                                                        <a ><%= shopdataList[index].Adres %></a>
                                                     </h4>
-                                                    <div class="price">$80</div>
+                                                    
                                                     <div class="meta">
                                                         <figure>
-                                                            <i class="fa fa-calendar-o"></i>02.05.2017
+                                                            <i class="fa fa-calendar-o"></i><%= shopdataList[index].olusturmaTarihi %>
                                                         </figure>
                                                         <figure>
-                                                            <a href="#">
+                                                            <a>
                                                                 <i class="fa fa-user"></i><%= shopdataList[index].IletisimBilgileri %>
                                                             </a>
                                                         </figure>
@@ -297,101 +295,17 @@
         <!--*********************************************************************************************************-->
         <!--************ FOOTER *************************************************************************************-->
         <!--*********************************************************************************************************-->
-        <section class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5">
-                        <a href="#" class="brand">
-                            <img src="assets/img/logo.png" alt="">
-                        </a>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec tincidunt arcu, sit amet
-                            fermentum sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra.
-                        </p>
-                    </div>
-                    <!--end col-md-5-->
-                    <div class="col-md-3">
-                        <h2>Navigation</h2>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <nav>
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <a href="#">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Listing</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Pages</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Extras</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Contact</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Submit Ad</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <nav>
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <a href="#">My Ads</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Sign In</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Register</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end col-md-3-->
-                    <div class="col-md-4">
-                        <h2>Contact</h2>
-                        <address>
-                            <figure>
-                                124 Abia Martin Drive<br>
-                                New York, NY 10011
-                            </figure>
-                            <br>
-                            <strong>Email:</strong> <a href="#">hello@example.com</a>
-                            <br>
-                            <strong>Skype: </strong> Craigs
-                            <br>
-                            <br>
-                            <a href="contact.html" class="btn btn-primary text-caps btn-framed">Contact Us</a>
-                        </address>
-                    </div>
-                    <!--end col-md-4-->
-                </div>
-                <!--end row-->
-            </div>
-            <div class="background">
-                <div class="background-image original-size">
-                    <img src="assets/img/footer-background-icons.jpg" alt="">
-                </div>
-                <!--end background-image-->
-            </div>
-            <!--end background-->
-        </section>
+        <%- include('../user-partials/footer') %>
         <!--end footer-->
     </div>
     <!--end page-->
+    
     <%- include('../user-partials/script') %>
 
     <script>
         var latitude = 51.511971;
         var longitude = -0.137597;
-        var markerImage = "assets/img/map-marker.png";
+        var markerImage = "/userstatic/assets/img/map-marker.png";
         var mapTheme = "light";
         var mapElement = "map-small";
         simpleMap(latitude, longitude, markerImage, mapTheme, mapElement);

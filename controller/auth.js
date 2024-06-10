@@ -2,10 +2,18 @@ const collection = require("../model/user");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 exports.loginPage=(req,res,next)=>{
-    res.render('auth/login',{layout:false})
+    res.render('auth/login',{
+        layout:false,
+        userRole:req.user.role,
+        tokenControl: req.tokenControl,
+    })
 }
 exports.registerPage=(req,res,next)=>{
-    res.render('auth/register',{layout:false})
+    res.render('auth/register',{
+        layout:false,
+        tokenControl: req.tokenControl,
+        userRole: req.user.role,
+    })
 }
 exports.register= async(req,res,next)=>{
     const data = {
@@ -51,7 +59,7 @@ exports.login = async (req, res, next) => {
 };
 exports.logout = (req, res) => {
     res.clearCookie('cookieJWT');
-    res.redirect('/auth/login');
+    res.redirect('/user/home-page');
 };
 const createToken = (userId, role) => {
     return jwt.sign({ userId, role }, process.env.JWT_SECRET, {
