@@ -11,6 +11,8 @@ const cookiParser = require('cookie-parser');
 const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
+const createSitemap = require('./middleware/siteMap'); // Eklediğiniz sitemap middleware
+
 
 dotenv.config();
 
@@ -73,6 +75,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/admin', adminRouter)
 app.use('/auth', authRouter)
 app.use('/user', userRouter)
+
+app.get('/sitemap.xml', createSitemap);
 
 app.use('*', (req, res) => {
     res.status(404).render('./admin/404', {
