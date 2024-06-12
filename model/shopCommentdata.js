@@ -17,26 +17,15 @@ function getCurrentDateTime() {
     return dateTime;
 }
 
-const shopdata = new mongoose.Schema({
-    IsletmeAdi: String,
-    Kategori: String,
-    Adres: String,
-    IletisimBilgileri: String,
-    Sehir: String,
-    Aciklama: String,
-    olusturmaTarihi: {
-        type: String,
+const CommentSchema = new mongoose.Schema({
+    icerik: { type: String, required: true },
+    yazar: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
+    tarih: { 
+        type: String, 
+        required: true,
         default: getCurrentDateTime
     },
-    slug: {
-        type: String,
-        required: true,
-        unique: true
-      },
-    resimler: [{
-        dosyaYolu: String
-    }],
-    Yorumlar: [{ type: mongoose.Schema.Types.ObjectId, ref: 'shopCommentdatas' }]
+    post: { type: mongoose.Schema.Types.ObjectId, ref: 'shopData', required: true }
 });
 
-module.exports = mongoose.model('shopData', shopdata);
+module.exports = mongoose.model('shopCommentdatas', CommentSchema);

@@ -1,5 +1,5 @@
 const User = require("../../model/user")
-const Comment = require("../../model/commentdata");
+const Comment = require("../../model/announcementCommentdata");
 
 exports.homePage=async (req,res,next)=>{
     const userRole = req.user.role;

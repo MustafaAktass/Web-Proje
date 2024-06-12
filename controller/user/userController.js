@@ -1,54 +1,37 @@
-const ShopData = require("../../model/shopdata")
+const ShopData = require("../../model/shopdata");
 const AnnouncementData = require("../../model/announcementdata");
-const Comment = require("../../model/commentdata");
+const Comment = require("../../model/announcementCommentdata");
+const ShopComment = require("../../model/shopCommentdata");
+const { getPaginatedData, getPopularAnnouncements, renderPage } = require("../../middleware/helper");
 
 exports.homePage = async (req, res, next) => {
     try {
         const data = await ShopData.find();
-        res.render('user/home-page', {
+        renderPage(res, 'user/home-page', {
             userRole: req.user.role,
             shopdata: data,
-            tokenControl: req.tokenControl,
-            layout: false
+            tokenControl: req.tokenControl
         });
     } catch (err) {
-        res.status(500).json({ message: err.message }); 
+        res.status(500).json({ message: err.message });
     }
-}
+};
+
 exports.announcementPage = async (req, res, next) => {
-    const perPage = 3; // Sayfa başına gösterilecek kayıt sayısı
-    const page = req.query.page || 1; // Sayfa numarası, varsayılan olarak 1
+    const perPage = 3;
+    const page = req.query.page || 1;
 
     try {
-        // Toplam kayıt sayısını al
-        const totalItems = await AnnouncementData.countDocuments();
+        const { data, totalItems } = await getPaginatedData(AnnouncementData, page, perPage);
+        const popularAnnouncements = await getPopularAnnouncements();
 
-        // Sayfalı duyuruları al
-        const data = await AnnouncementData.find()
-            .skip((perPage * page) - perPage)
-            .limit(perPage);
-
-        // Popüler duyuruları al
-        const popularAnnouncements = await AnnouncementData.find()
-            .populate({
-                path: 'Yorumlar',
-                populate: {
-                    path: 'yazar',
-                    model: 'users'
-                }
-            })
-            .sort({ 'Yorumlar': -1 })
-            .limit(5); // En çok yorum alan ilk 5 duyuru
-
-        // View'i render et
-        res.render('user/announcement-page', {
+        renderPage(res, 'user/announcement-page', {
             tokenControl: req.tokenControl,
             userRole: req.user.role,
             announcementdata: data,
             popularAnnouncements: popularAnnouncements,
             current: page,
-            pages: Math.ceil(totalItems / perPage), // Toplam sayfa sayısı
-            layout: false 
+            pages: Math.ceil(totalItems / perPage)
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -58,8 +41,6 @@ exports.announcementPage = async (req, res, next) => {
 exports.announcementDetailPage = async (req, res, next) => {
     try {
         const { slug } = req.params;
-
-        // Detaylı duyuruyu slug ile bul ve yorumlarıyla birlikte al
         const data = await AnnouncementData.findOne({ slug })
             .populate({
                 path: 'Yorumlar',
@@ -68,30 +49,19 @@ exports.announcementDetailPage = async (req, res, next) => {
                     model: 'users'
                 }
             });
+        const popularAnnouncements = await getPopularAnnouncements();
 
-        // Popüler duyuruları al
-        const popularAnnouncements = await AnnouncementData.find()
-            .populate({
-                path: 'Yorumlar',
-                populate: {
-                    path: 'yazar',
-                    model: 'users'
-                }
-            })
-            .sort({ 'Yorumlar': -1 })
-            .limit(5); // En çok yorum alan ilk 5 duyuru
-
-        res.render('user/announcement-detail-page', {
+        renderPage(res, 'user/announcement-detail-page', {
             tokenControl: req.tokenControl,
             userRole: req.user.role,
             announcementdata: data,
-            popularAnnouncements: popularAnnouncements,
-            layout: false 
+            popularAnnouncements: popularAnnouncements
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
+
 exports.getAllShops = async (req, res) => {
     try {
         const allShops = await ShopData.find();
@@ -101,79 +71,77 @@ exports.getAllShops = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
 exports.listShop = async (req, res, next) => {
-    const perPage = 6; // Sayfa başına gösterilecek kayıt sayısı
-    const page = req.query.page || 1; // Sayfa numarası, varsayılan olarak 1
+    const perPage = 6;
+    const page = req.query.page || 1;
 
     try {
-        const totalItems = await ShopData.countDocuments(); // Toplam kayıt sayısı
-        const data = await ShopData.find()
-            .skip((perPage * page) - perPage)
-            .limit(perPage);
-
-        res.render('user/shop-page', {
+        const { data, totalItems } = await getPaginatedData(ShopData, page, perPage);
+        renderPage(res, 'user/shop-page', {
             tokenControl: req.tokenControl,
             userRole: req.user.role,
             shopdata: data,
             current: page,
-            pages: Math.ceil(totalItems / perPage), // Toplam sayfa sayısı
-            layout: false 
+            pages: Math.ceil(totalItems / perPage)
         });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
 
-exports.shopDetail=async(req,res,next)=>{
-    
+exports.shopDetail = async (req, res, next) => {
     try {
         const { slug } = req.params;
         const dataList = await ShopData.find();
-        const data = await ShopData.findOne({slug});
+        const data = await ShopData.findOne({ slug })
+            .populate({
+                path: 'Yorumlar',
+                populate: {
+                    path: 'yazar',
+                    model: 'users'
+                }
+            });
+
         if (!data) {
             return res.status(404).send('İşletme bulunamadı');
         }
-        res.render('user/shop-detail-page',{ 
+
+        const popularAnnouncements = await getPopularAnnouncements(); // Duyuruları almak için eklenen satır
+
+        renderPage(res, 'user/shop-detail-page', {
             tokenControl: req.tokenControl,
             userRole: req.user.role,
             shopdata: data,
             shopdataList: dataList,
-            layout: false 
-        })
+            popularAnnouncements: popularAnnouncements // Duyuruları view'e gönder
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-    
-}
+};
+
 
 exports.search = async (req, res) => {
-    
     const { IsletmeAdi, Sehir, Kategori } = req.body;
 
     try {
-        // MongoDB sorgu nesnesi oluştur
         let query = {};
-
         if (IsletmeAdi) {
-            query.IsletmeAdi = { $regex: new RegExp(IsletmeAdi, 'i') }; // Case-insensitive regex
+            query.IsletmeAdi = { $regex: new RegExp(IsletmeAdi, 'i') };
         }
-
         if (Sehir) {
-            query.Sehir = { $regex: new RegExp(Sehir, 'i') }; // Case-insensitive regex
+            query.Sehir = { $regex: new RegExp(Sehir, 'i') };
         }
-
         if (Kategori) {
             query.Kategori = Kategori;
         }
 
-        // Veritabanından filtrelenmiş verileri al
         const filteredData = await ShopData.find(query);
-
-        res.render('user/home-page', {
+        renderPage(res, 'user/home-page', {
             tokenControl: req.tokenControl,
             userRole: req.user.role,
-            shopdata: filteredData, 
-            layout: false 
+            shopdata: filteredData
         });
     } catch (error) {
         console.error(error);
@@ -184,8 +152,6 @@ exports.search = async (req, res) => {
 exports.createComment = async (req, res, next) => {
     try {
         const { icerik, postId } = req.body;
-
-        // Slug ile duyuruyu bulun
         const post = await AnnouncementData.findOne({ slug: postId });
         if (!post) {
             return res.status(404).json({ msg: 'Announcement not found' });
@@ -194,30 +160,53 @@ exports.createComment = async (req, res, next) => {
         const comment = new Comment({
             icerik,
             yazar: req.user.userId,
-            post: post._id, // postId yerine post._id kullanın
+            post: post._id,
         });
 
         await comment.save();
-
         post.Yorumlar.push(comment._id);
         await post.save();
-        
-        // Yorum kaydedildikten sonra kullanıcıyı duyuru sayfasına yönlendirin
+
         res.redirect(`/user/announcement-detail-page/${post.slug}`);
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Server error' });
     }
 };
+
+
+exports.createShopComment = async (req, res, next) => {
+    try {
+        const { icerik, postId } = req.body;
+        const post = await ShopData.findOne({ slug: postId });
+        if (!post) {
+            return res.status(404).json({ msg: 'Shop not found' });
+        }
+        
+        const comment = new ShopComment({
+            icerik,
+            yazar: req.user.userId,
+            post: post._id,
+        });
+       
+        await comment.save();
+        post.Yorumlar.push(comment._id);
+        await post.save();
+
+        res.redirect(`/user/shop-detail-page/${post.slug}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: 'Server error' });
+    }
+};
+
 exports.searchAnnouncement = async (req, res) => {
     const { keyword } = req.query;
-    const perPage = 3; // Number of records per page
-    const page = req.query.page || 1; // Page number, default is 1
+    const perPage = 3;
+    const page = req.query.page || 1;
 
     try {
-        // MongoDB query to find announcements by keyword
         let query = {};
-
         if (keyword) {
             query = {
                 $or: [
@@ -228,21 +217,16 @@ exports.searchAnnouncement = async (req, res) => {
             };
         }
 
-        // Fetch total number of items matching the query
-        const totalItems = await AnnouncementData.countDocuments(query);
+        const { data, totalItems } = await getPaginatedData(AnnouncementData, page, perPage, query);
+        const popularAnnouncements = await getPopularAnnouncements();
 
-        // Fetch filtered announcements with pagination
-        const filteredData = await AnnouncementData.find(query)
-            .skip((perPage * page) - perPage)
-            .limit(perPage);
-
-        res.render('user/announcement-page', {
+        renderPage(res, 'user/announcement-page', {
             tokenControl: req.tokenControl,
             userRole: req.user.role,
-            announcementdata: filteredData,
+            announcementdata: data,
             current: page,
-            pages: Math.ceil(totalItems / perPage), // Total number of pages
-            layout: false 
+            pages: Math.ceil(totalItems / perPage),
+            popularAnnouncements: popularAnnouncements
         });
     } catch (error) {
         console.error(error);
